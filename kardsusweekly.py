@@ -29,6 +29,8 @@ def download_url (article_url):
     article_text = soup.main
     for aside in article_text.find_all("aside"):
         aside.extract()
+    for video in article_text.find_all('div', class_='jwplayer-video'):
+        video.extract()
 
 
     return (title, article_date, article_text.get_text())
