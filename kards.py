@@ -19,8 +19,8 @@ wr = csv.writer(newfile, lineterminator='\n', delimiter=',', escapechar='\\', qu
 wr.writerow(['title','url'])
 
 # Loop over page ranges, and append the number to the celebrity_url
-for p in enumerate(pages):
-    page_string = str(p)
+for p, page in enumerate(pages):
+    page_string = str(page)
     soup = BeautifulSoup(urllib2.urlopen(celebrity_url + page_string).read())
 
     # Find all the articles on each page.
