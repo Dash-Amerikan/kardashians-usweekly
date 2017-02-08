@@ -10,6 +10,12 @@ from bs4 import BeautifulSoup
 ARTICLE_CSV = 'usweekly-articles.csv'
 TEXT_CSV = 'usweekly-text.csv'
 
+
+def normalize(text):
+    """Normalize whitespace in the text."""
+    return ' '.join(text.split())
+
+
 def download_url (article_url):
     """Download article_url and return the title, date, and text."""
 
@@ -29,9 +35,11 @@ def download_url (article_url):
     article_text = soup.main
     for aside in article_text.find_all("aside"):
         aside.extract()
+    for video in article_text.find_all('div', class_='jwplayer-video'):
+        video.extract()
 
 
-    return (title, article_date, article_text.get_text())
+    return (title, article_date, normalize(article_text.get_text()))
 
 with open (ARTICLE_CSV, 'rU') as file_in:
     with open (TEXT_CSV, 'w') as file_out:
